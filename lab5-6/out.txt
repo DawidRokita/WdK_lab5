@@ -1,0 +1,27 @@
+line 11: OK
+line 12: OK
+line 13: OK
+line 14: OK
+line 15: OK
+line 16: ERROR
+line 17: OK
+line 18: OK
+line 19: OK
+line 20: OK
+invalid type modifier 21: ERROR
+line 22: OK
+line 23: OK
+line 24: OK
+incorrect argument line 25: ERROR
+line 26: OK
+line 27: OK
+line 28: OK
+line 29: OK
+line 1: ERROR
+line 31: OK
+invalid type modifier line 32: ERROR
+line 33: OK
+line 34: OK
+line 35: OK
+invalid constant in the array declaration line 36: ERROR
+line 37: OK
