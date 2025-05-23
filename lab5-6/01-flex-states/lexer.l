@@ -1,40 +1,44 @@
 %option noyywrap
 
 %{
+    #include <stdlib.h>
+    #include <iostream>
     #include "parser.tab.h"
-    int current_line = 1;
 %}
 
 %%
 
-"int"               { return INT; }
-"double"            { return DOUBLE; }
-"const"             { return CONST; }
-"constexp"          { return CONSTEXP; }
-"char"              { return CHAR; }
-"void"              { return VOID; }
+"int"       { return INT; }
+"float"    { return FLOAT; }
+"char"      { return CHAR; }
+"string"    { return STRING; }
 
-"&"                 { return REF; }
-"&&"                { return RREF; }
-"*"                 { return STAR; }
+"sin"       { return SIN; }
+"cos"       { return COS; }
+"pow"       { return POWER; }
 
-"("                 { return LPAREN; }
-")"                 { return RPAREN; }
-"["                 { return LBRACKET; }
-"]"                 { return RBRACKET; }
-","                 { return COMMA; }
-":"                 { return COLON; }
-";"                 { return SEMICOLON; }
+"*"         { return TIMES; }
+"+"         { return PLUS; }
+"-"         { return MINUS; }
+"/"         { return DIVIDE; }
+"="         { return ASSIGN; }
+";"         { return SEMICOLON; }
+"("         { return LPAREN; }
+")"         { return RPAREN; }
 
-"//"[^\n]*          { /* komentarz jednoliniowy */ }
-"/*"([^*]|\*+[^*/])*\*+\/    { /* komentarz blokowy */ }
+[0-9]+\.[0-9]*     { yylval.num_val = atof(yytext); return NUMBER; }
+[0-9]+             { yylval.num_val = atof(yytext); return NUMBER; }
 
-[0-9]+              { return NUMBER; }
-[a-zA-Z_][a-zA-Z0-9_]* { return IDENTIFIER; }
+\'[a-zA-Z0-9]\'     { yylval.char_val = yytext[1]; return CHARVAL; }
+\"[^\"]*\"         { yylval.id = new std::string(yytext); return STRINGVAL; }
 
-[\n]+               { current_line++; }
-[ \t\r]+            { /* białe znaki */ }
+[a-zA-Z_][a-zA-Z0-9_]* {
+    yylval.id = new std::string(yytext);
+    return IDENT;
+}
 
-.                   { return yytext[0]; }
+[ \t\r\n]+      ; // pomijaj białe znaki
+
+.               { /* ignoruj nieznane znaki */ }
 
 %%
